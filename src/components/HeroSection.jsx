@@ -37,6 +37,8 @@ export default function HeroSection() {
   const progressDisplayRef = useRef(null);
   const scrollIndicatorRef = useRef(null);
   const monogramWrapRef = useRef(null);
+  const targetProgressRef = useRef(0);
+  const currentProgressRef = useRef(0);
 
   const guestName = useGuestName();
 
@@ -103,38 +105,51 @@ export default function HeroSection() {
 
       if (isCancelled) return;
 
+      // ── Ticker untuk Smooth Video Scroll (Lerp) ──
+      const tickerFunc = () => {
+        if (isCancelled) return;
+        // Smooth interpolation (lerp)
+        const lerpFactor = window.innerWidth < 768 ? 0.08 : 0.05;
+        currentProgressRef.current += (targetProgressRef.current - currentProgressRef.current) * lerpFactor;
+
+        // Draw frame based on interpolated progress
+        drawFrame(currentProgressRef.current);
+
+        // Direct DOM updates for other elements can also follow the smooth progress
+        const p = currentProgressRef.current;
+        if (gradientRef.current) {
+          if (p > 0.85) {
+            gradientRef.current.style.background = 'linear-gradient(to top, rgba(12,8,6,0.85) 0%, rgba(12,8,6,0.4) 50%, transparent 100%)';
+          } else if (p > 0.12) {
+            gradientRef.current.style.background = 'linear-gradient(to top, rgba(12,8,6,0.35) 0%, transparent 100%)';
+          } else {
+            gradientRef.current.style.background = 'transparent';
+          }
+        }
+        if (monogramWrapRef.current) {
+          monogramWrapRef.current.style.transform = `scale(${1 + p * 0.4})`;
+        }
+      };
+      gsap.ticker.add(tickerFunc);
+
       trigger = ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
         end: '+=400%',
         pin: pinRef.current,
         pinSpacing: true,
-        scrub: window.innerWidth < 768 ? 1.2 : 2,
+        scrub: true, // Let our ticker handle the smoothing for video
         onUpdate: (self) => {
           const p = self.progress;
+          targetProgressRef.current = p;
 
-          // Draw frame — smooth, no decode lag
-          drawFrame(p);
-
-          // Direct DOM — zero React re-render
-          if (gradientRef.current) {
-            if (p > 0.85) {
-              gradientRef.current.style.background = 'linear-gradient(to top, rgba(12,8,6,0.85) 0%, rgba(12,8,6,0.4) 50%, transparent 100%)';
-            } else if (p > 0.12) {
-              gradientRef.current.style.background = 'linear-gradient(to top, rgba(12,8,6,0.35) 0%, transparent 100%)';
-            } else {
-              gradientRef.current.style.background = 'transparent';
-            }
-          }
+          // These updates can stay in onUpdate for immediate response
           if (progressDisplayRef.current) {
             progressDisplayRef.current.textContent =
               Math.round(p * 100).toString().padStart(2, '0') + ' — 100';
           }
           if (scrollIndicatorRef.current) {
             scrollIndicatorRef.current.style.opacity = p < 0.05 ? '1' : '0';
-          }
-          if (monogramWrapRef.current) {
-            monogramWrapRef.current.style.transform = `scale(${1 + p * 0.4})`;
           }
 
           // Only re-render when state actually changes
@@ -145,6 +160,10 @@ export default function HeroSection() {
           }
         },
       });
+
+      return () => {
+        gsap.ticker.remove(tickerFunc);
+      };
     };
 
     initGSAP();
