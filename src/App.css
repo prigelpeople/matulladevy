@@ -1,0 +1,20 @@
+/* App-level styles intentionally minimal; index.css holds the design system */
+.App { min-height: 100vh; }
+
+.countdown-surprise-wrapper {
+  display: flex;
+  flex-direction: column;
+  background: var(--sage-mist);
+}
+
+.countdown-surprise-wrapper > section {
+  flex: 1;
+  min-height: auto;
+}
+
+@media (min-width: 900px) {
+  .countdown-surprise-wrapper {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
