@@ -118,9 +118,13 @@ export default function HeroSection() {
 
           // Direct DOM — zero React re-render
           if (gradientRef.current) {
-            gradientRef.current.style.background = p > 0.85
-              ? 'linear-gradient(to top, rgba(12,8,6,0.85) 0%, rgba(12,8,6,0.4) 50%, transparent 100%)'
-              : 'linear-gradient(to top, rgba(12,8,6,0.35) 0%, transparent 100%)';
+            if (p > 0.85) {
+              gradientRef.current.style.background = 'linear-gradient(to top, rgba(12,8,6,0.85) 0%, rgba(12,8,6,0.4) 50%, transparent 100%)';
+            } else if (p > 0.12) {
+              gradientRef.current.style.background = 'linear-gradient(to top, rgba(12,8,6,0.35) 0%, transparent 100%)';
+            } else {
+              gradientRef.current.style.background = 'transparent';
+            }
           }
           if (progressDisplayRef.current) {
             progressDisplayRef.current.textContent =
@@ -180,7 +184,7 @@ export default function HeroSection() {
           style={{
             position: 'absolute', left: 0, right: 0, bottom: 0,
             height: '60%',
-            background: 'linear-gradient(to top, rgba(12,8,6,0.35) 0%, transparent 100%)',
+            background: 'transparent',
             transition: 'background 0.6s ease',
             zIndex: 2,
           }}
