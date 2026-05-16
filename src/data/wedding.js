@@ -51,7 +51,7 @@ export const ASSETS = {
   rose: 'https://images.unsplash.com/photo-1761594078262-f06e7791b0be?auto=format&fit=crop&w=800&q=80',
   whiteRose: 'https://images.unsplash.com/photo-1761249841897-1f2bd37c4184?auto=format&fit=crop&w=800&q=80',
   venue: 'https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&w=1600&q=80',
-  slide1: process.env.PUBLIC_URL + '/assets/slide1.jpg',
-  slide2: process.env.PUBLIC_URL + '/assets/slide2.jpg',
-  slide3: process.env.PUBLIC_URL + '/assets/slide3.jpg',
+  slide1: process.env.PUBLIC_URL + '/assets/slide1.webp',
+  slide2: process.env.PUBLIC_URL + '/assets/slide2.webp',
+  slide3: process.env.PUBLIC_URL + '/assets/slide3.webp',
 };
