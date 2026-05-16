@@ -64,9 +64,13 @@ export default function SurpriseCard() {
         {/* Custom text overlay — positioned over the blue banner area */}
         <div style={{
           position: 'absolute',
-          bottom: '22%',
-          left: '8%',
-          right: '8%',
+          bottom: '4%',
+          left: '10%',
+          right: '10%',
+          height: '24%', // Area biru
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           textAlign: 'center',
           pointerEvents: 'none',
         }}>
@@ -77,12 +81,12 @@ export default function SurpriseCard() {
             color: '#ffffff',
             textTransform: 'uppercase',
             letterSpacing: '0.05em',
-            lineHeight: 1.2,
+            lineHeight: 1,
             textShadow: '0 2px 4px rgba(0,0,0,0.4)',
             margin: 0,
             wordBreak: 'break-word',
           }}>
-            <span style={{ fontSize: '1em' }}>from {guestName}</span>
+            from {guestName}
           </p>
         </div>
       </div>
