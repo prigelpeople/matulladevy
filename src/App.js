@@ -75,7 +75,7 @@ function App() {
 
 
           <Marquee
-            text="30 Mei 2026 · Ngunduh Mantu · Rachmatulla & Devy Puspita · "
+            text="Matulla & Devy ~ #MadeWithLove ~ 24 & 30 Mei 2026 ~ "
             direction="right"
             alt
           />

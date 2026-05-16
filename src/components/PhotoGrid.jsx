@@ -5,11 +5,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const ITEMS = [
-  { type: 'photo', src: process.env.PUBLIC_URL + '/assets/prep1.jpg', rotate: -5 },
+  { type: 'photo', src: process.env.PUBLIC_URL + '/assets/prep1.webp', rotate: -5 },
   { type: 'photo', src: process.env.PUBLIC_URL + '/assets/prep2.webp', rotate: 3 },
   { type: 'text' },
   { type: 'photo', src: process.env.PUBLIC_URL + '/assets/prep3.webp', rotate: -3 },
-  { type: 'photo', src: process.env.PUBLIC_URL + '/assets/prep4.jpeg', rotate: 4 },
+  { type: 'photo', src: process.env.PUBLIC_URL + '/assets/prep4.webp', rotate: 4 },
 ];
 
 export default function PhotoGrid() {
