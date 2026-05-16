@@ -64,7 +64,7 @@ export default function SurpriseCard() {
         {/* Custom text overlay — positioned over the blue banner area */}
         <div style={{
           position: 'absolute',
-          bottom: '8%',
+          bottom: '10%',
           left: '10%',
           right: '10%',
           height: '24%', // Area biru
