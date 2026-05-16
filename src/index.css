@@ -553,14 +553,13 @@ body {
 
 /* Scroll Reveal */
 .reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.75s ease, transform 0.75s ease;
+  opacity: 1;
+  transform: none;
 }
 
 .reveal.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 /* Performance: hint GPU untuk elemen yang dianimasi */

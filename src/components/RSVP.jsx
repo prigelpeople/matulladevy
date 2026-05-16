@@ -28,14 +28,9 @@ export default function RSVP() {
     return () => off(wishesRef);
   }, []);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('[data-r]', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' } });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
+  // GSAP scroll animation removed per user request
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     if (!name.trim() || !message.trim()) return;
     
@@ -47,10 +42,14 @@ export default function RSVP() {
       ts: Date.now() 
     };
 
-    const wishesRef = dbRef(db, 'wishes');
-    push(wishesRef, w);
-
-    setName(''); setMessage(''); setCount(1); setAttend('Ya');
+    try {
+      const wishesRef = dbRef(db, 'wishes');
+      await push(wishesRef, w);
+      setName(''); setMessage(''); setCount(1); setAttend('Ya');
+    } catch (err) {
+      console.error("Firebase error:", err);
+      alert("Gagal mengirim ucapan. Pastikan Firebase Database Rules sudah diubah menjadi public (.read: true, .write: true)");
+    }
   };
 
   return (

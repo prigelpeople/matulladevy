@@ -9,19 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function EventDetails() {
   const ref = useRef(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('[data-card-event]', { y: 50, opacity: 0 }, {
-        y: 0, opacity: 1, duration: 1, ease: 'power3.out', stagger: 0.18,
-        scrollTrigger: { trigger: ref.current, start: 'top 78%' }
-      });
-      gsap.fromTo('[data-line]', { width: 0 }, {
-        width: 60, duration: 0.9, ease: 'power3.out',
-        scrollTrigger: { trigger: ref.current, start: 'top 78%' }
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
+  // GSAP scroll animation removed per user request
 
   const buildIcs = (ev) => {
     const dt = new Date(ev.isoDate);

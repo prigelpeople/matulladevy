@@ -103,12 +103,7 @@ const BankCard = ({ bank, logoColor, logoUrl, accNumber, name }) => {
 export default function QuoteSection() {
   const ref = useRef(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('[data-q]', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', stagger: 0.12, scrollTrigger: { trigger: ref.current, start: 'top 80%' } });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
+  // GSAP scroll animation removed per user request
 
   return (
     <section ref={ref} style={{ background: 'var(--sage-mist)', padding: '140px 24px' }}>

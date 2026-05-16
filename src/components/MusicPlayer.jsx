@@ -26,11 +26,15 @@ export default function MusicPlayer() {
   };
 
   useEffect(() => {
+    let hasAttemptedUnlock = false;
+
     const playAudio = () => {
-      if (audioRef.current && !isPlaying) {
+      // Only auto-play if we haven't successfully started it yet
+      if (audioRef.current && !isPlaying && !hasAttemptedUnlock) {
         audioRef.current.play()
           .then(() => {
             setIsPlaying(true);
+            hasAttemptedUnlock = true;
             // Once playing, remove these listeners
             window.removeEventListener('click', playAudio);
             window.removeEventListener('touchstart', playAudio);
@@ -53,7 +57,7 @@ export default function MusicPlayer() {
       window.removeEventListener('touchstart', playAudio);
       window.removeEventListener('scroll', playAudio);
     };
-  }, [isPlaying]);
+  }, []);
 
   return (
     <div 

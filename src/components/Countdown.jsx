@@ -23,12 +23,7 @@ export default function Countdown() {
     return () => clearInterval(id);
   }, []);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('[data-cd-item]', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: 0.12, scrollTrigger: { trigger: ref.current, start: 'top 80%' } });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
+  // GSAP scroll animation removed per user request
 
   const units = [
     { label: 'Hari', val: t.days },

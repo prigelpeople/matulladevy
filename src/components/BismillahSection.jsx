@@ -4,33 +4,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function useReveal(ref) {
-  useEffect(() => {
-    if (!ref.current) return;
-    const els = ref.current.querySelectorAll('[data-reveal]');
-    const tweens = [];
-    els.forEach((el, i) => {
-      const t = gsap.fromTo(
-        el,
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.9,
-          ease: 'power3.out',
-          delay: i * 0.08,
-          scrollTrigger: { trigger: el, start: 'top 88%' },
-        }
-      );
-      tweens.push(t);
-    });
-    return () => tweens.forEach(t => { t.scrollTrigger && t.scrollTrigger.kill(); t.kill(); });
-  }, [ref]);
-}
+  // GSAP scroll animation removed per user request
 
 export default function BismillahSection() {
   const ref = useRef(null);
-  useReveal(ref);
 
   return (
     <section ref={ref} id="bismillah" style={{ position: 'relative', background: 'var(--cream)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '120px 24px', overflow: 'hidden' }}>
