@@ -55,6 +55,7 @@ export default function HeroSection() {
     video.muted = true;
     video.playsInline = true;
     video.preload = 'auto';
+    video.crossOrigin = 'anonymous'; // Added for better cross-origin support
     video.style.display = 'none';
     document.body.appendChild(video);
 
@@ -64,10 +65,16 @@ export default function HeroSection() {
       framesRef.current = video;
       totalFramesRef.current = video.duration;
       console.log('Video duration loaded:', video.duration);
+      
+      // "Warm up" the video for mobile scrubbing
+      video.play().then(() => {
+        video.pause();
+      }).catch(err => {
+        console.warn('Video warm-up failed, scrubbing might be jittery:', err);
+      });
     };
 
     video.addEventListener('loadedmetadata', handleLoaded);
-    // Fallback if metadata is already loaded
     if (video.readyState >= 1) handleLoaded();
 
     return () => { 
