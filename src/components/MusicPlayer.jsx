@@ -19,22 +19,36 @@ export default function MusicPlayer() {
   };
 
   useEffect(() => {
+    // Attempt to play immediately on mount
+    const playAudio = () => {
+      if (audioRef.current) {
+        audioRef.current.play()
+          .then(() => setIsPlaying(true))
+          .catch(() => {
+            console.log("Autoplay blocked by browser. Waiting for user interaction...");
+          });
+      }
+    };
+
+    playAudio();
+
+    // Fallback: Play on first interaction if blocked
     const attemptAutoplay = () => {
       if (audioRef.current && !isPlaying) {
         audioRef.current.play()
           .then(() => setIsPlaying(true))
-          .catch(() => {
-            console.log("Waiting for user gesture to play music...");
-          });
+          .catch((e) => console.log("Still blocked:", e));
       }
     };
 
     window.addEventListener('click', attemptAutoplay, { once: true });
     window.addEventListener('touchstart', attemptAutoplay, { once: true });
+    window.addEventListener('scroll', attemptAutoplay, { once: true });
 
     return () => {
       window.removeEventListener('click', attemptAutoplay);
       window.removeEventListener('touchstart', attemptAutoplay);
+      window.removeEventListener('scroll', attemptAutoplay);
     };
   }, [isPlaying]);
 
@@ -73,6 +87,7 @@ export default function MusicPlayer() {
         ref={audioRef}
         src={MUSIC_URL}
         loop
+        autoPlay
       />
       
       {isPlaying ? <Pause size={20} strokeWidth={1.5} /> : <Play size={20} strokeWidth={1.5} style={{ marginLeft: '2px' }} />}
