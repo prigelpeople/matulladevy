@@ -7,80 +7,85 @@ export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
-  const togglePlay = () => {
+  const togglePlay = (e) => {
+    if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+    
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
-        audioRef.current.play().catch(e => console.log("Autoplay blocked:", e));
+        audioRef.current.play()
+          .then(() => setIsPlaying(true))
+          .catch(e => console.log("Playback failed:", e));
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
   useEffect(() => {
-    // Attempt to play immediately on mount
     const playAudio = () => {
-      if (audioRef.current) {
-        audioRef.current.play()
-          .then(() => setIsPlaying(true))
-          .catch(() => {
-            console.log("Autoplay blocked by browser. Waiting for user interaction...");
-          });
-      }
-    };
-
-    playAudio();
-
-    // Fallback: Play on first interaction if blocked
-    const attemptAutoplay = () => {
       if (audioRef.current && !isPlaying) {
         audioRef.current.play()
-          .then(() => setIsPlaying(true))
-          .catch((e) => console.log("Still blocked:", e));
+          .then(() => {
+            setIsPlaying(true);
+            // Once playing, remove these listeners
+            window.removeEventListener('click', playAudio);
+            window.removeEventListener('touchstart', playAudio);
+            window.removeEventListener('scroll', playAudio);
+          })
+          .catch(() => {});
       }
     };
 
-    window.addEventListener('click', attemptAutoplay, { once: true });
-    window.addEventListener('touchstart', attemptAutoplay, { once: true });
-    window.addEventListener('scroll', attemptAutoplay, { once: true });
+    // Attempt immediately
+    playAudio();
+
+    // Listen for any interaction to unlock
+    window.addEventListener('click', playAudio);
+    window.addEventListener('touchstart', playAudio);
+    window.addEventListener('scroll', playAudio);
 
     return () => {
-      window.removeEventListener('click', attemptAutoplay);
-      window.removeEventListener('touchstart', attemptAutoplay);
-      window.removeEventListener('scroll', attemptAutoplay);
+      window.removeEventListener('click', playAudio);
+      window.removeEventListener('touchstart', playAudio);
+      window.removeEventListener('scroll', playAudio);
     };
   }, [isPlaying]);
 
   return (
-    <div style={{
+    <div 
+    onClick={togglePlay}
+    style={{
       position: 'fixed',
-      bottom: '24px',
-      right: '24px',
-      zIndex: 1000,
+      bottom: '30px',
+      right: '30px',
+      zIndex: 99999,
       cursor: 'pointer',
       width: '50px',
       height: '50px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'rgba(255, 255, 255, 0.45)',
+      background: 'rgba(255, 255, 255, 0.6)',
       backdropFilter: 'blur(10px)',
       borderRadius: '50%',
-      boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-      border: '1px solid rgba(255,255,255,0.4)',
-      transition: 'all 0.3s ease',
-      color: 'var(--sage-green, #6b705c)'
+      boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+      border: '1px solid rgba(255,255,255,0.5)',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      color: '#4a4e40',
+      pointerEvents: 'auto',
     }}
     className="music-player-btn"
-    onClick={togglePlay}
     onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'scale(1.1)';
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.7)';
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
     }}
     onMouseLeave={(e) => {
         e.currentTarget.style.transform = 'scale(1)';
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.45)';
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)';
     }}
     >
       <audio
@@ -88,6 +93,7 @@ export default function MusicPlayer() {
         src={MUSIC_URL}
         loop
         autoPlay
+        preload="auto"
       />
       
       {isPlaying ? <Pause size={20} strokeWidth={1.5} /> : <Play size={20} strokeWidth={1.5} style={{ marginLeft: '2px' }} />}
