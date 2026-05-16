@@ -5,59 +5,56 @@ import { Send } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const STORAGE_KEY = 'rd_wishes_v1';
-
-function loadWishes() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return seed();
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || parsed.length === 0) return seed();
-    return parsed;
-  } catch (e) {
-    return seed();
-  }
-}
-
-function seed() {
-  const s = [
-    { name: 'Andika', attend: 'Ya', message: 'Selamat menempuh hidup baru, semoga sakinah, mawaddah, warahmah.', ts: Date.now() - 1000 * 60 * 60 },
-    { name: 'Ratna', attend: 'Ya', message: 'Barakallah — semoga menjadi keluarga yang penuh berkah.', ts: Date.now() - 1000 * 60 * 30 },
-    { name: 'Fajri', attend: 'Belum Pasti', message: 'Doa terbaik untuk kalian berdua, sehat selalu.', ts: Date.now() - 1000 * 60 * 10 },
-  ];
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
-  return s;
-}
+import { db } from '../lib/firebase';
+import { ref as dbRef, push, onValue, off } from 'firebase/database';
 
 export default function RSVP() {
-  const ref = useRef(null);
+  const sectionRef = useRef(null);
   const [name, setName] = useState('');
   const [attend, setAttend] = useState('Ya');
   const [count, setCount] = useState(1);
   const [message, setMessage] = useState('');
   const [wishes, setWishes] = useState([]);
 
-  useEffect(() => { setWishes(loadWishes()); }, []);
+  useEffect(() => {
+    const wishesRef = dbRef(db, 'wishes');
+    onValue(wishesRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const list = Object.values(data).sort((a, b) => b.ts - a.ts);
+        setWishes(list);
+      }
+    });
+    return () => off(wishesRef);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('[data-r]', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: ref.current, start: 'top 80%' } });
-    }, ref);
+      gsap.fromTo('[data-r]', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' } });
+    }, sectionRef);
     return () => ctx.revert();
   }, []);
 
   const submit = (e) => {
     e.preventDefault();
     if (!name.trim() || !message.trim()) return;
-    const w = { name: name.trim(), attend, count, message: message.trim(), ts: Date.now() };
-    const next = [w, ...wishes];
-    setWishes(next);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    
+    const w = { 
+      name: name.trim(), 
+      attend, 
+      count, 
+      message: message.trim(), 
+      ts: Date.now() 
+    };
+
+    const wishesRef = dbRef(db, 'wishes');
+    push(wishesRef, w);
+
     setName(''); setMessage(''); setCount(1); setAttend('Ya');
   };
 
   return (
-    <section ref={ref} id="rsvp" style={{ background: 'var(--cream)', padding: '140px 6vw' }}>
+    <section ref={sectionRef} id="rsvp" style={{ background: 'var(--cream)', padding: '140px 6vw' }}>
       <div style={{ maxWidth: 1180, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 64 }}>
         <div>
           <div data-r className="font-ui tracked reveal" style={{ color: 'var(--muted)', fontSize: '11px', marginBottom: 14 }}>RSVP</div>
