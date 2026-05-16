@@ -16,6 +16,7 @@ const FooterSeamless = React.lazy(() => import('./components/FooterSeamless'));
 const FloatingFlowers = React.lazy(() => import('./components/FloatingFlowers'));
 const PhotoGrid = React.lazy(() => import('./components/PhotoGrid'));
 const SurpriseCard = React.lazy(() => import('./components/SurpriseCard'));
+const MusicPlayer = React.lazy(() => import('./components/MusicPlayer'));
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -104,6 +105,7 @@ function App() {
 
           <div style={{ height: 80, marginTop: -80, position: 'relative', zIndex: 10, background: 'linear-gradient(to bottom, transparent, var(--cream))' }} />
           <FooterSeamless />
+          {loaded && <MusicPlayer />}
         </React.Suspense>
       </main>
     </div>
