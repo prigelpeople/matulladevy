@@ -45,19 +45,11 @@ export default function HeroSection() {
 
   const guestName = useGuestName();
 
-  useEffect(() => {
-    const isMob = window.innerWidth < 768;
-    const src = process.env.PUBLIC_URL +
-      (isMob ? '/assets/hero-mobile-scrub.mp4' : '/assets/hero-full-scrub.mp4');
+  const videoRef = useRef(null);
 
-    const video = document.createElement('video');
-    video.src = src;
-    video.muted = true;
-    video.playsInline = true;
-    video.preload = 'auto';
-    video.crossOrigin = 'anonymous'; // Added for better cross-origin support
-    video.style.display = 'none';
-    document.body.appendChild(video);
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
     useRVFCRef.current = 'requestVideoFrameCallback' in video;
 
@@ -75,11 +67,11 @@ export default function HeroSection() {
     };
 
     video.addEventListener('loadedmetadata', handleLoaded);
+    video.load(); // Force load on iOS
     if (video.readyState >= 1) handleLoaded();
 
     return () => { 
       video.removeEventListener('loadedmetadata', handleLoaded);
-      video.remove(); 
     };
   }, []);
 
@@ -150,8 +142,8 @@ export default function HeroSection() {
       if (isSeekingRef.current) return;
 
       const canvas = canvasRef.current;
-      const video = framesRef.current;
-      if (!canvas || !video || !video.duration) return;
+      const video = videoRef.current;
+      if (!canvas || !video || !video.duration || video.readyState < 2) return;
 
       const targetTime = p * video.duration;
       if (isNaN(targetTime)) return;
@@ -193,6 +185,15 @@ export default function HeroSection() {
 
   return (
     <section ref={sectionRef} className="section grain" style={{ position: 'relative' }}>
+      {/* Hidden video element for iOS support */}
+      <video
+        ref={videoRef}
+        src={process.env.PUBLIC_URL + (window.innerWidth < 768 ? '/assets/hero-mobile-scrub.mp4' : '/assets/hero-full-scrub.mp4')}
+        muted
+        playsInline
+        preload="auto"
+        style={{ display: 'none' }}
+      />
       <div ref={pinRef} style={{
         position: 'relative', width: '100vw', height: '100vh',
         overflow: 'hidden',
