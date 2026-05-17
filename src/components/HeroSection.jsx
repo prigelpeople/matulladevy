@@ -29,7 +29,6 @@ export default function HeroSection({ loaded }) {
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
   const [activeState, setActiveState] = useState(0);
-  const [scrollLottieData, setScrollLottieData] = useState(null);
   const activeStateRef = useRef(0);
   const gradientRef = useRef(null);
   const progressDisplayRef = useRef(null);
@@ -42,12 +41,13 @@ export default function HeroSection({ loaded }) {
   const guestName = useGuestName();
 
   const videoRef = useRef(null);
+  const [scrollAnimData, setScrollAnimData] = useState(null);
 
   useEffect(() => {
     fetch(process.env.PUBLIC_URL + '/assets/SS%20ROLL.json')
       .then(res => res.json())
-      .then(data => setScrollLottieData(data))
-      .catch(err => console.error("Error loading SS ROLL:", err));
+      .then(data => setScrollAnimData(data))
+      .catch(err => console.error('Error loading SS ROLL Lottie:', err));
   }, []);
 
   useEffect(() => {
@@ -184,6 +184,15 @@ export default function HeroSection({ loaded }) {
 
         <div className={`hero-state ${activeState === 2 ? 'active' : ''}`} style={{ zIndex: 3 }}>
           <div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+              {scrollAnimData && (
+                <Lottie
+                  animationData={scrollAnimData}
+                  loop={true}
+                  style={{ width: 40, height: 80 }}
+                />
+              )}
+            </div>
             <div className="font-ui tracked" style={{ color: '#ffffff', fontSize: '11px', marginBottom: 14 }}>The Wedding Of</div>
             <div className="font-display" style={{ color: '#ffffff', fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(3rem, 7vw, 6rem)', lineHeight: 0.9, letterSpacing: '-0.01em' }}>
               {WEDDING.heroTitle}
@@ -221,16 +230,8 @@ export default function HeroSection({ loaded }) {
         </div>
 
         <div ref={scrollIndicatorRef} className="scroll-indicator" style={{ opacity: 1, transition: 'opacity 0.4s ease' }}>
-          {scrollLottieData ? (
-            <Lottie
-              animationData={scrollLottieData}
-              loop={true}
-              style={{ width: 24, height: 60 }}
-            />
-          ) : (
-            <span className="arrow" />
-          )}
           <span>Scroll Down</span>
+          <span className="arrow" />
         </div>
 
         <div style={{ position: 'absolute', top: 28, left: 80, zIndex: 6, color: '#ffffff' }}>
