@@ -63,7 +63,7 @@ function App() {
         <SideNav dark={navDark} />
 
         <main style={{ visibility: loaded ? 'visible' : 'hidden' }}>
-          <HeroSection />
+          <HeroSection loaded={loaded} />
           <React.Suspense fallback={<div style={{ height: '100vh', background: 'var(--cream)' }} />}>
             {/* FloatingFlowers: fixed overlay, aktif dari #acara sampai #rsvp */}
             {loaded && <FloatingFlowers />}

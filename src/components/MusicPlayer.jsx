@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause } from 'lucide-react';
 
-const MUSIC_URL = "https://res.cloudinary.com/do24uyizc/video/upload/v1778931025/GHEA_INDRAWARI_-_MANUSIA_PALING_BAHAGIA_BERDAMAI_LYRIC_VIDEO_LIRIK_LAGU_TERBARU_1_vku7i8.mp4";
+const MUSIC_URL = "https://res.cloudinary.com/do24uyizc/video/upload/v1778991689/o-maahi-slowed-reverb-pritam-arijit-singh-dunki-sr-lofi_OnV1IZ8d_1_xhchl0.mp3";
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -9,10 +9,10 @@ export default function MusicPlayer() {
 
   const togglePlay = (e) => {
     if (e) {
-        e.stopPropagation();
-        e.preventDefault();
+      e.stopPropagation();
+      e.preventDefault();
     }
-    
+
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -40,7 +40,7 @@ export default function MusicPlayer() {
             window.removeEventListener('touchstart', playAudio);
             window.removeEventListener('scroll', playAudio);
           })
-          .catch(() => {});
+          .catch(() => { });
       }
     };
 
@@ -57,40 +57,41 @@ export default function MusicPlayer() {
       window.removeEventListener('touchstart', playAudio);
       window.removeEventListener('scroll', playAudio);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div 
-    onClick={togglePlay}
-    style={{
-      position: 'fixed',
-      bottom: '30px',
-      right: '30px',
-      zIndex: 99999,
-      cursor: 'pointer',
-      width: '50px',
-      height: '50px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'rgba(255, 255, 255, 0.6)',
-      backdropFilter: 'blur(10px)',
-      borderRadius: '50%',
-      boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-      border: '1px solid rgba(255,255,255,0.5)',
-      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-      color: '#4a4e40',
-      pointerEvents: 'auto',
-    }}
-    className="music-player-btn"
-    onMouseEnter={(e) => {
+    <div
+      onClick={togglePlay}
+      style={{
+        position: 'fixed',
+        bottom: '30px',
+        right: '30px',
+        zIndex: 99999,
+        cursor: 'pointer',
+        width: '50px',
+        height: '50px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'rgba(255, 255, 255, 0.6)',
+        backdropFilter: 'blur(10px)',
+        borderRadius: '50%',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+        border: '1px solid rgba(255,255,255,0.5)',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        color: '#4a4e40',
+        pointerEvents: 'auto',
+      }}
+      className="music-player-btn"
+      onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'scale(1.1)';
         e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
-    }}
-    onMouseLeave={(e) => {
+      }}
+      onMouseLeave={(e) => {
         e.currentTarget.style.transform = 'scale(1)';
         e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)';
-    }}
+      }}
     >
       <audio
         ref={audioRef}
@@ -99,7 +100,7 @@ export default function MusicPlayer() {
         autoPlay
         preload="auto"
       />
-      
+
       {isPlaying ? <Pause size={20} strokeWidth={1.5} /> : <Play size={20} strokeWidth={1.5} style={{ marginLeft: '2px' }} />}
     </div>
   );

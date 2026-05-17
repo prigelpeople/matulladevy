@@ -24,12 +24,9 @@ function useGuestName() {
   }, []);
 }
 
-export default function HeroSection() {
+export default function HeroSection({ loaded }) {
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
-  const canvasRef = useRef(null);
-  const framesRef = useRef([]);
-  const totalFramesRef = useRef(0);
   const [activeState, setActiveState] = useState(0);
   const activeStateRef = useRef(0);
   const gradientRef = useRef(null);
@@ -39,9 +36,6 @@ export default function HeroSection() {
 
   const targetProgressRef = useRef(0);
   const currentProgressRef = useRef(0);
-  const lastDrawnProgressRef = useRef(0);
-  const isSeekingRef = useRef(false);
-  const useRVFCRef = useRef(false);
 
   const guestName = useGuestName();
 
@@ -51,29 +45,18 @@ export default function HeroSection() {
     const video = videoRef.current;
     if (!video) return;
 
-    useRVFCRef.current = 'requestVideoFrameCallback' in video;
+    // Mengatur kecepatan video (1.0 adalah normal, 0.25 adalah seperempat kecepatan)
+    video.playbackRate = 0.75;
 
-    const handleLoaded = () => {
-      framesRef.current = video;
-      totalFramesRef.current = video.duration;
-      console.log('Video duration loaded:', video.duration);
-      
-      // "Warm up" the video for mobile scrubbing
-      video.play().then(() => {
-        video.pause();
-      }).catch(err => {
-        console.warn('Video warm-up failed, scrubbing might be jittery:', err);
+    if (loaded) {
+      video.play().catch(err => {
+        console.warn('Auto-play failed, usually due to browser policy:', err);
       });
-    };
-
-    video.addEventListener('loadedmetadata', handleLoaded);
-    video.load(); // Force load on iOS
-    if (video.readyState >= 1) handleLoaded();
-
-    return () => { 
-      video.removeEventListener('loadedmetadata', handleLoaded);
-    };
-  }, []);
+    } else {
+      video.pause();
+      video.currentTime = 0;
+    }
+  }, [loaded]);
 
   useEffect(() => {
     let trigger;
@@ -138,40 +121,6 @@ export default function HeroSection() {
         monogramWrapRef.current.style.transform = `scale(${1 + p * 0.4})`;
       }
 
-      if (Math.abs(p - lastDrawnProgressRef.current) < 0.002) return;
-      if (isSeekingRef.current) return;
-
-      const canvas = canvasRef.current;
-      const video = videoRef.current;
-      if (!canvas || !video || !video.duration || video.readyState < 2) return;
-
-      const targetTime = p * video.duration;
-      if (isNaN(targetTime)) return;
-
-      isSeekingRef.current = true;
-      lastDrawnProgressRef.current = p;
-      video.currentTime = targetTime;
-
-      const drawAndRelease = () => {
-        if (isCancelled) return;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.globalCompositeOperation = 'source-over';
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        }
-        isSeekingRef.current = false;
-      };
-
-      if (useRVFCRef.current) {
-        video.requestVideoFrameCallback(drawAndRelease);
-      } else {
-        const onSeeked = () => {
-          drawAndRelease();
-          video.removeEventListener('seeked', onSeeked);
-        };
-        video.addEventListener('seeked', onSeeked);
-      }
     };
 
     rafId = requestAnimationFrame(loop);
@@ -185,23 +134,16 @@ export default function HeroSection() {
 
   return (
     <section ref={sectionRef} className="section grain" style={{ position: 'relative' }}>
-      {/* Hidden video element for iOS support */}
-      <video
-        ref={videoRef}
-        src={process.env.PUBLIC_URL + (window.innerWidth < 768 ? '/assets/hero-mobile-scrub.mp4' : '/assets/hero-full-scrub.mp4')}
-        muted
-        playsInline
-        preload="auto"
-        style={{ display: 'none' }}
-      />
       <div ref={pinRef} style={{
         position: 'relative', width: '100vw', height: '100vh',
         overflow: 'hidden',
         background: `url(${process.env.PUBLIC_URL}/assets/bggarden.webp) center/cover no-repeat`
       }}>
-        <canvas ref={canvasRef}
-          width={window.innerWidth < 768 ? 720 : 1280}
-          height={window.innerWidth < 768 ? 1280 : 720}
+        <video
+          ref={videoRef}
+          src={process.env.PUBLIC_URL + (window.innerWidth < 768 ? '/assets/hero-mobile-scrub.mp4' : '/assets/hero-full-scrub.mp4')}
+          muted
+          playsInline
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }}
         />
         <div ref={gradientRef} style={{
