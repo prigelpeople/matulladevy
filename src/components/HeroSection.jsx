@@ -160,6 +160,31 @@ export default function HeroSection({ loaded }) {
           background: 'transparent', transition: 'background 0.6s ease', zIndex: 2
         }} />
 
+        {/* Lottie Scroll Indicator (Muncul dari State 2 sampai akhir HeroSection) */}
+        <div 
+          style={{ 
+            position: 'absolute', 
+            bottom: '30vh', 
+            left: '6vw', 
+            zIndex: 5,
+            opacity: activeState >= 2 ? 1 : 0,
+            transition: 'opacity 0.6s ease',
+            pointerEvents: 'none',
+          }}
+        >
+          {scrollAnimData && (
+            <Lottie
+              animationData={scrollAnimData}
+              loop={true}
+              style={{ 
+                width: 60, 
+                height: 120, 
+                filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.4)) brightness(0) invert(1)' 
+              }}
+            />
+          )}
+        </div>
+
         <div className={`hero-state center ${activeState === 0 ? 'active' : ''}`} style={{ zIndex: 3 }}>
           <div style={{ textAlign: 'center' }}>
             <div ref={monogramWrapRef} style={{ transform: 'scale(1)', transition: 'transform 0.4s ease', willChange: 'transform' }}>
@@ -184,15 +209,6 @@ export default function HeroSection({ loaded }) {
 
         <div className={`hero-state ${activeState === 2 ? 'active' : ''}`} style={{ zIndex: 3 }}>
           <div>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-              {scrollAnimData && (
-                <Lottie
-                  animationData={scrollAnimData}
-                  loop={true}
-                  style={{ width: 40, height: 80 }}
-                />
-              )}
-            </div>
             <div className="font-ui tracked" style={{ color: '#ffffff', fontSize: '11px', marginBottom: 14 }}>The Wedding Of</div>
             <div className="font-display" style={{ color: '#ffffff', fontStyle: 'italic', fontWeight: 300, fontSize: 'clamp(3rem, 7vw, 6rem)', lineHeight: 0.9, letterSpacing: '-0.01em' }}>
               {WEDDING.heroTitle}
