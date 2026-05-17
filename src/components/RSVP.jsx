@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Send } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
-
 import { db } from '../lib/firebase';
 import { ref as dbRef, push, onValue, off } from 'firebase/database';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function RSVP() {
   const sectionRef = useRef(null);

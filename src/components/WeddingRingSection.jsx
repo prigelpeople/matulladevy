@@ -121,10 +121,23 @@ export default function WeddingRingSection() {
         composer.addPass(bokeh);
         composer.addPass(new OutputPass());
 
+        /* ── Intersection Observer to pause rendering when out of view ── */
+        let isVisible = false;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            isVisible = entries[0].isIntersecting;
+          },
+          { threshold: 0 }
+        );
+        if (wrapRef.current) {
+          observer.observe(wrapRef.current);
+        }
+
         /* ── Render loop ── */
         let t = 0;
         const render = () => {
           raf = requestAnimationFrame(render);
+          if (!isVisible) return; // SKIP RENDER WHEN OUT OF VIEW
           t += 0.012;
           if (ringRef.current) ringRef.current.position.y = Math.sin(t * 0.8) * 0.02;
           composer.render();
@@ -185,6 +198,7 @@ export default function WeddingRingSection() {
           pinST.kill();
           orbitST.kill();
           tl.kill();
+          observer.disconnect();
           cancelAnimationFrame(raf);
           if (composer && composer.dispose) composer.dispose();
           if (renderer) renderer.dispose();

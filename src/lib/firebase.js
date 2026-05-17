@@ -10,7 +10,7 @@ const firebaseConfig = {
   messagingSenderId: "431773043452",
   appId: "1:431773043452:web:3cc98050d67c5af8722579",
   measurementId: "G-DD27HG5X0H",
-  databaseURL: "https://made-invitation-default-rtdb.firebaseio.com"
+  databaseURL: "https://made-invitation-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 
 const app = initializeApp(firebaseConfig);

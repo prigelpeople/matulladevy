@@ -123,6 +123,10 @@ export default function FloatingFlowers() {
 
       const tick = () => {
         rafId = requestAnimationFrame(tick);
+        
+        // SKIP RENDER if out of trigger range
+        if (st && !st.isActive) return; 
+
         const delta = clock.getDelta();
         time += 0.01;
 
