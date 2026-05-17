@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
+import Lottie from 'lottie-react';
 import { ASSETS, WEDDING } from '../data/wedding';
 
 function SplitChars({ text, className, style }) {
@@ -28,6 +29,7 @@ export default function HeroSection({ loaded }) {
   const sectionRef = useRef(null);
   const pinRef = useRef(null);
   const [activeState, setActiveState] = useState(0);
+  const [scrollLottieData, setScrollLottieData] = useState(null);
   const activeStateRef = useRef(0);
   const gradientRef = useRef(null);
   const progressDisplayRef = useRef(null);
@@ -40,6 +42,13 @@ export default function HeroSection({ loaded }) {
   const guestName = useGuestName();
 
   const videoRef = useRef(null);
+
+  useEffect(() => {
+    fetch(process.env.PUBLIC_URL + '/assets/SS%20ROLL.json')
+      .then(res => res.json())
+      .then(data => setScrollLottieData(data))
+      .catch(err => console.error("Error loading SS ROLL:", err));
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -212,8 +221,16 @@ export default function HeroSection({ loaded }) {
         </div>
 
         <div ref={scrollIndicatorRef} className="scroll-indicator" style={{ opacity: 1, transition: 'opacity 0.4s ease' }}>
+          {scrollLottieData ? (
+            <Lottie
+              animationData={scrollLottieData}
+              loop={true}
+              style={{ width: 24, height: 60 }}
+            />
+          ) : (
+            <span className="arrow" />
+          )}
           <span>Scroll Down</span>
-          <span className="arrow" />
         </div>
 
         <div style={{ position: 'absolute', top: 28, left: 80, zIndex: 6, color: '#ffffff' }}>
