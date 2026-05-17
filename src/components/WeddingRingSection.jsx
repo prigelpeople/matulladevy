@@ -36,7 +36,6 @@ const PANELS = [
     label: 'MENUJU HARI BAHAGIA',
     title: 'Minggu,\n24 Mei 2026',
     body: 'Resepsi Pernikahan · Ngunduh Mantu 30 Mei 2026',
-    cta: 'Buka Undangan',
   },
 ];
 
