@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/matulladevy/static/css/main.22479c76.css",
-    "main.js": "/matulladevy/static/js/main.88af7e1b.js",
+    "main.js": "/matulladevy/static/js/main.9e8b7c91.js",
     "static/js/859.d47fe947.chunk.js": "/matulladevy/static/js/859.d47fe947.chunk.js",
     "static/js/151.ded0b98f.chunk.js": "/matulladevy/static/js/151.ded0b98f.chunk.js",
     "static/js/446.39088d9e.chunk.js": "/matulladevy/static/js/446.39088d9e.chunk.js",
@@ -22,7 +22,7 @@
     "static/js/199.db990f0e.chunk.js": "/matulladevy/static/js/199.db990f0e.chunk.js",
     "index.html": "/matulladevy/index.html",
     "main.22479c76.css.map": "/matulladevy/static/css/main.22479c76.css.map",
-    "main.88af7e1b.js.map": "/matulladevy/static/js/main.88af7e1b.js.map",
+    "main.9e8b7c91.js.map": "/matulladevy/static/js/main.9e8b7c91.js.map",
     "859.d47fe947.chunk.js.map": "/matulladevy/static/js/859.d47fe947.chunk.js.map",
     "151.ded0b98f.chunk.js.map": "/matulladevy/static/js/151.ded0b98f.chunk.js.map",
     "446.39088d9e.chunk.js.map": "/matulladevy/static/js/446.39088d9e.chunk.js.map",
@@ -44,6 +44,6 @@
   },
   "entrypoints": [
     "static/css/main.22479c76.css",
-    "static/js/main.88af7e1b.js"
+    "static/js/main.9e8b7c91.js"
   ]
 }
