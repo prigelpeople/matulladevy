@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Instagram } from 'lucide-react';
 import { ASSETS, WEDDING } from '../data/wedding';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -72,14 +71,12 @@ export default function CouplePhotoSection() {
       label: 'The Bride',
       title: 'Devy Puspitasari',
       desc: `Putri dari Bpk. ${WEDDING.bride.father} & Ibu ${WEDDING.bride.mother}`,
-      ig: 'https://instagram.com/devypuspitas',
     },
     {
       photo: ASSETS.slide3,
       label: 'The Groom',
       title: 'Rachmatulla',
       desc: `Putra dari Bpk. ${WEDDING.groom.father} & Ibu ${WEDDING.groom.mother}`,
-      ig: 'https://instagram.com/matullaa',
     },
   ];
 
@@ -185,25 +182,6 @@ export default function CouplePhotoSection() {
               >
                 {slide.desc}
               </p>
-
-              {/* Instagram Button */}
-              {slide.ig && (
-                <a
-                  href={slide.ig}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-pill dark"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    pointerEvents: 'auto',
-                  }}
-                >
-                  <Instagram size={14} />
-                  <span>Instagram</span>
-                </a>
-              )}
 
               {/* Slide indicator dots */}
               <div style={{ display: 'flex', gap: '8px', marginTop: '32px' }}>
