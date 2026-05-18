@@ -16,9 +16,9 @@ export default function CouplePhotoSection() {
     if (!slides || slides.length < 3) return;
 
     // Show first slide immediately
-    gsap.set(slides[0], { opacity: 1, pointerEvents: 'auto' });
-    gsap.set(slides[1], { opacity: 0, pointerEvents: 'none' });
-    gsap.set(slides[2], { opacity: 0, pointerEvents: 'none' });
+    gsap.set(slides[0], { opacity: 1, visibility: 'visible', pointerEvents: 'auto' });
+    gsap.set(slides[1], { opacity: 0, visibility: 'hidden', pointerEvents: 'none' });
+    gsap.set(slides[2], { opacity: 0, visibility: 'hidden', pointerEvents: 'none' });
 
     const pinTrigger = ScrollTrigger.create({
       trigger: wrapRef.current,
@@ -38,9 +38,9 @@ export default function CouplePhotoSection() {
         // Slide 0: visible 0–40%, fade out 33–40%
         // Slide 1: fade in 33–40%, visible 40–73%, fade out 66–73%
         // Slide 2: fade in 66–73%, visible 73–100%
-        gsap.to(slides[0], { opacity: p < 0.33 ? 1 : p < 0.4 ? 1 - ((p - 0.33) / 0.07) : 0, pointerEvents: p < 0.33 ? 'auto' : 'none', duration: 0 });
-        gsap.to(slides[1], { opacity: p < 0.33 ? 0 : p < 0.4 ? (p - 0.33) / 0.07 : p < 0.66 ? 1 : p < 0.73 ? 1 - ((p - 0.66) / 0.07) : 0, pointerEvents: (p >= 0.33 && p < 0.66) ? 'auto' : 'none', duration: 0 });
-        gsap.to(slides[2], { opacity: p < 0.66 ? 0 : p < 0.73 ? (p - 0.66) / 0.07 : 1, pointerEvents: p >= 0.66 ? 'auto' : 'none', duration: 0 });
+        gsap.to(slides[0], { opacity: p < 0.33 ? 1 : p < 0.4 ? 1 - ((p - 0.33) / 0.07) : 0, visibility: p < 0.4 ? 'visible' : 'hidden', pointerEvents: p < 0.33 ? 'auto' : 'none', duration: 0 });
+        gsap.to(slides[1], { opacity: p < 0.33 ? 0 : p < 0.4 ? (p - 0.33) / 0.07 : p < 0.66 ? 1 : p < 0.73 ? 1 - ((p - 0.66) / 0.07) : 0, visibility: (p >= 0.33 && p < 0.73) ? 'visible' : 'hidden', pointerEvents: (p >= 0.33 && p < 0.66) ? 'auto' : 'none', duration: 0 });
+        gsap.to(slides[2], { opacity: p < 0.66 ? 0 : p < 0.73 ? (p - 0.66) / 0.07 : 1, visibility: p >= 0.66 ? 'visible' : 'hidden', pointerEvents: p >= 0.66 ? 'auto' : 'none', duration: 0 });
 
         // Update indicator dots
         const activeSlide = p < 0.4 ? 0 : p < 0.73 ? 1 : 2;
@@ -95,6 +95,7 @@ export default function CouplePhotoSection() {
               position: 'absolute',
               inset: 0,
               opacity: index === 0 ? 1 : 0,
+              visibility: index === 0 ? 'visible' : 'hidden',
               pointerEvents: index === 0 ? 'auto' : 'none',
             }}
           >
@@ -200,7 +201,6 @@ export default function CouplePhotoSection() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '8px',
-                    pointerEvents: 'auto',
                     cursor: 'pointer',
                   }}
                 >
