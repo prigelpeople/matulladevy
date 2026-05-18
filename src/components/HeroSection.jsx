@@ -161,11 +161,11 @@ export default function HeroSection({ loaded }) {
         }} />
 
         {/* Lottie Scroll Indicator (Muncul dari State 2 sampai akhir HeroSection) */}
-        <div 
-          style={{ 
-            position: 'absolute', 
-            bottom: '30vh', 
-            left: '6vw', 
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '30vh',
+            left: '6vw',
             zIndex: 5,
             opacity: activeState >= 2 ? 1 : 0,
             transition: 'opacity 0.6s ease',
@@ -176,10 +176,10 @@ export default function HeroSection({ loaded }) {
             <Lottie
               animationData={scrollAnimData}
               loop={true}
-              style={{ 
-                width: 60, 
-                height: 120, 
-                filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.4)) brightness(0) invert(1)' 
+              style={{
+                width: 80,
+                height: 120,
+                filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.4)) brightness(0) invert(1)'
               }}
             />
           )}
