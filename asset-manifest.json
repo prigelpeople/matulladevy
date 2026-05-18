@@ -1,10 +1,10 @@
 {
   "files": {
     "main.css": "/matulladevy/static/css/main.c93ac282.css",
-    "main.js": "/matulladevy/static/js/main.fb659185.js",
+    "main.js": "/matulladevy/static/js/main.a58c0688.js",
     "static/js/859.d47fe947.chunk.js": "/matulladevy/static/js/859.d47fe947.chunk.js",
     "static/js/151.ded0b98f.chunk.js": "/matulladevy/static/js/151.ded0b98f.chunk.js",
-    "static/js/2.c55bb2a0.chunk.js": "/matulladevy/static/js/2.c55bb2a0.chunk.js",
+    "static/js/446.f6eebcac.chunk.js": "/matulladevy/static/js/446.f6eebcac.chunk.js",
     "static/js/153.6937ca5e.chunk.js": "/matulladevy/static/js/153.6937ca5e.chunk.js",
     "static/js/898.2015ffd3.chunk.js": "/matulladevy/static/js/898.2015ffd3.chunk.js",
     "static/js/544.2fe1350d.chunk.js": "/matulladevy/static/js/544.2fe1350d.chunk.js",
@@ -22,10 +22,10 @@
     "static/js/199.db990f0e.chunk.js": "/matulladevy/static/js/199.db990f0e.chunk.js",
     "index.html": "/matulladevy/index.html",
     "main.c93ac282.css.map": "/matulladevy/static/css/main.c93ac282.css.map",
-    "main.fb659185.js.map": "/matulladevy/static/js/main.fb659185.js.map",
+    "main.a58c0688.js.map": "/matulladevy/static/js/main.a58c0688.js.map",
     "859.d47fe947.chunk.js.map": "/matulladevy/static/js/859.d47fe947.chunk.js.map",
     "151.ded0b98f.chunk.js.map": "/matulladevy/static/js/151.ded0b98f.chunk.js.map",
-    "2.c55bb2a0.chunk.js.map": "/matulladevy/static/js/2.c55bb2a0.chunk.js.map",
+    "446.f6eebcac.chunk.js.map": "/matulladevy/static/js/446.f6eebcac.chunk.js.map",
     "153.6937ca5e.chunk.js.map": "/matulladevy/static/js/153.6937ca5e.chunk.js.map",
     "898.2015ffd3.chunk.js.map": "/matulladevy/static/js/898.2015ffd3.chunk.js.map",
     "544.2fe1350d.chunk.js.map": "/matulladevy/static/js/544.2fe1350d.chunk.js.map",
@@ -44,6 +44,6 @@
   },
   "entrypoints": [
     "static/css/main.c93ac282.css",
-    "static/js/main.fb659185.js"
+    "static/js/main.a58c0688.js"
   ]
 }
